@@ -21,8 +21,33 @@ public class Leave implements Serializable {
     private User requestedBy;
     @OneToOne
     private LeaveTypes leaveTypes;
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Approved> approved;
+
+    public Leave() {
+
+    }
+    public Leave(
+            long id,
+            ZonedDateTime createDate,
+            ZonedDateTime startDate,
+            ZonedDateTime endDate,
+            String description,
+            String comment,
+            User requestedBy,
+            LeaveTypes leaveTypes,
+            List<Approved> approved
+    ) {
+        this.id = id;
+        this.createDate = createDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.description = description;
+        this.comment = comment;
+        this.requestedBy = requestedBy;
+        this.leaveTypes = leaveTypes;
+        this.approved = approved;
+    }
 
     public long getId() {
         return id;
@@ -70,6 +95,14 @@ public class Leave implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public User getRequestedBy() {
+        return requestedBy;
+    }
+
+    public void setRequestedBy(User requestedBy) {
+        this.requestedBy = requestedBy;
     }
 
     public LeaveTypes getLeaveTypes() {

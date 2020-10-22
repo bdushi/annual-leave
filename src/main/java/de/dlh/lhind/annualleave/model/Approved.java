@@ -13,8 +13,9 @@ public class Approved implements Serializable {
     private long id;
     private ZonedDateTime approvedDate;
     private String comment;
+    private boolean approved;
     @OneToOne
-    private User user;
+    private User approvedBy;
 
     public long getId() {
         return id;
@@ -40,11 +41,19 @@ public class Approved implements Serializable {
         this.comment = comment;
     }
 
-    public User getUser() {
-        return user;
+    public boolean isApproved() {
+        return approved;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public User getApprovedBy() {
+        return approvedBy;
+    }
+
+    public void setApprovedBy(User approvedBy) {
+        this.approvedBy = approvedBy;
     }
 }

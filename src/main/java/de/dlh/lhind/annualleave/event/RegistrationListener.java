@@ -1,24 +1,29 @@
 package de.dlh.lhind.annualleave.event;
 
-import de.dlh.lhind.annualleave.event.OnRegistrationCompleteEvent;
 import de.dlh.lhind.annualleave.model.User;
+import de.dlh.lhind.annualleave.service.EmailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
-class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
-    @Override
-    public void onApplicationEvent(OnRegistrationCompleteEvent onRegistrationCompleteEvent) {
+class RegistrationListener implements ApplicationListener<OnRegistrationEvent> {
+    private final EmailService emailService;
 
+    @Autowired
+    public RegistrationListener(EmailService emailService) {
+        this.emailService = emailService;
+    }
+    @Override
+    public void onApplicationEvent(OnRegistrationEvent onRegistrationEvent) {
+        confirmRegistration(onRegistrationEvent);
     }
 
-
-    // Need to be sent asynchronous
-    /*private confirmRegistration(OnRegistrationCompleteEvent event) {
-        User user = event.user
+    private void confirmRegistration(OnRegistrationEvent event) {
+        User user = event.getUser();
         emailService.sendSimpleMessageUsingTemplate(
-                "brunodushi@gmail.com",
+                user.getEmail(),
                 "User Registration",
-                "User was successfully Registered ${event.appUrl} with UserName: ${user.username} and Password: ${event.password}")
-    }*/
+                String.format("User was successfully Registered %s with UserName: %s and Password: %s",event.getAppUrl(),user.getUsername(), event.getPassword()));
+    }
 }

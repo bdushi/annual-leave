@@ -4,11 +4,11 @@ package de.dlh.lhind.annualleave.event;
 import de.dlh.lhind.annualleave.model.User;
 import org.springframework.context.ApplicationEvent;
 
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
+public class OnRegistrationEvent extends ApplicationEvent {
     private final User user;
     private final String appUrl;
     private final String password;
-    public OnRegistrationCompleteEvent(User user, String appUrl, String password) {
+    public OnRegistrationEvent(User user, String appUrl, String password) {
         super(user);
         this.user = user;
         this.appUrl = appUrl;

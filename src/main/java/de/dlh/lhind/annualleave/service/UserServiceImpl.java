@@ -2,7 +2,7 @@ package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.authentication.AuthenticationFacade;
 import de.dlh.lhind.annualleave.dto.UserDto;
-import de.dlh.lhind.annualleave.event.OnRegistrationCompleteEvent;
+import de.dlh.lhind.annualleave.event.OnRegistrationEvent;
 import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
                 userDto.getAuthorities(),
                 ZonedDateTime.now(),
                 true);
-        applicationEventPublisher.publishEvent(new OnRegistrationCompleteEvent(user, appUrl, password));
+        applicationEventPublisher.publishEvent(new OnRegistrationEvent(user, appUrl, password));
         return userRepository.save(user);
     }
 
