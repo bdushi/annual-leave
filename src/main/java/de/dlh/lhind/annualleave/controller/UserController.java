@@ -31,8 +31,19 @@ public class UserController {
         return new ResponseEntity<>(userService.updatePassword(oldPassword, newPassword), HttpStatus.OK);
     }
 
+    @PostMapping("/resetPassword")
+    ResponseEntity<User> resetPassword(@RequestParam("username") String username, HttpServletRequest request) {
+        return new ResponseEntity<>(
+                userService
+                        .resetPassword(
+                                username,
+                                "http://${request.serverName}:${request.serverPort}${request.contextPath}"
+                        ),
+                HttpStatus.OK);
+    }
+
     @PostMapping("/create")
-    ResponseEntity<User> create(@RequestBody UserDto userDto , HttpServletRequest request) {
+    ResponseEntity<User> create(@RequestBody UserDto userDto, HttpServletRequest request) {
         return new ResponseEntity<>(
                 userService
                         .register(

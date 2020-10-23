@@ -115,4 +115,14 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User not found", usernameNotFoundException);
         }
     }
+
+    @Override
+    public User resetPassword(String username, String appUrl) {
+        User user = findByUsername(authenticationFacade.authentication().getName());
+        String password = generateRandomPassword(8, 97, 122);
+        user.setPassword(password);
+        User mUser = userRepository.save(user);
+        applicationEventPublisher.publishEvent(new OnRegistrationEvent(mUser, appUrl, password));
+        return mUser;
+    }
 }
