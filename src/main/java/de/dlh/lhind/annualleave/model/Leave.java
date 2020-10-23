@@ -72,6 +72,14 @@ public class Leave implements Serializable {
         this.comment = comment;
     }
 
+    public User getRequestedBy() {
+        return requestedBy;
+    }
+
+    public void setRequestedBy(User requestedBy) {
+        this.requestedBy = requestedBy;
+    }
+
     public LeaveTypes getLeaveTypes() {
         return leaveTypes;
     }
