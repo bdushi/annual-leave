@@ -2,6 +2,11 @@ package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.authentication.AuthenticationFacade;
 import de.dlh.lhind.annualleave.dto.LeaveDto;
+import de.dlh.lhind.annualleave.event.ApprovedLeaveRequestListener;
+import de.dlh.lhind.annualleave.event.LeaveListener;
+import de.dlh.lhind.annualleave.event.OnApprovedLeaveRequestEvent;
+import de.dlh.lhind.annualleave.event.OnLeaveEvent;
+import de.dlh.lhind.annualleave.model.Approved;
 import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.LeaveRepository;
@@ -28,15 +33,21 @@ public class LeaveService {
     private final LeaveRepository leaveRepository;
     private final UserService userService;
     private final AuthenticationFacade authenticationFacade;
+    private final LeaveListener leaveListener;
+    private final ApprovedLeaveRequestListener approvedLeaveRequestListener;
 
     @Autowired
     public LeaveService(
             LeaveRepository leaveRepository,
             UserService userService,
-            AuthenticationFacade authenticationFacade) {
+            AuthenticationFacade authenticationFacade,
+            LeaveListener leaveListener,
+            ApprovedLeaveRequestListener approvedLeaveRequestListener) {
         this.leaveRepository = leaveRepository;
         this.userService = userService;
         this.authenticationFacade = authenticationFacade;
+        this.leaveListener = leaveListener;
+        this.approvedLeaveRequestListener = approvedLeaveRequestListener;
     }
 
     public Leave applyForLeave(LeaveDto leaveDto) {
@@ -46,7 +57,7 @@ public class LeaveService {
         } else if(leaveDto.getEndDate().compareTo(leaveDto.getStartDate()) < 1) {
             throw new RuntimeException("Start Date must be grater than End Date");
         } else {
-            return leaveRepository.save(
+            Leave leave = leaveRepository.save(
                     new Leave(
                             0,
                             ZonedDateTime.now(),
@@ -59,6 +70,8 @@ public class LeaveService {
                             new ArrayList<>()
                     )
             );
+            leaveListener.onApplicationEvent(new OnLeaveEvent(leave));
+            return leave;
         }
     }
     @Transactional
@@ -68,7 +81,9 @@ public class LeaveService {
                 Leave mLeave = leaveRepository
                         .findById(leave.getId()).orElseThrow((Supplier<Throwable>) () -> new RuntimeException("Leave with " + leave.getId() + " Not Founded"));
                 mLeave.setApproved(leave.getApproved());
-                return leaveRepository.save(mLeave);
+                Leave approvedLeave = leaveRepository.save(mLeave);
+                approvedLeaveRequestListener.onApplicationEvent(new OnApprovedLeaveRequestEvent(approvedLeave));
+                return approvedLeave;
             } catch (Throwable throwable) {
                 throw new RuntimeException(throwable);
             }

@@ -1,4 +1,4 @@
-INSERT INTO user (username, last_name, first_name, password, email, address, phone, employment_date, enable)
+INSERT INTO user (username, first_name, last_name, password, email, address, phone, employment_date, enable)
     VALUES
     ('brunodushi', 'Bruno', 'Dushi', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'brunodushi@gmail.com', 'Tirane', '699897887', '2020-01-22T13:38:56.793276+02:00', true),
     ('supervisor', 'Supervisor', 'Supervisor', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'supervisor@supervisor.com', 'Tirane', '699897887', CURRENT_TIMESTAMP(), true),

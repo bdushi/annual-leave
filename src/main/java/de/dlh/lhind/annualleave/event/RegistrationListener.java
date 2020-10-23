@@ -21,7 +21,7 @@ class RegistrationListener implements ApplicationListener<OnRegistrationEvent> {
 
     private void confirmRegistration(OnRegistrationEvent event) {
         User user = event.getUser();
-        emailService.sendSimpleMessageUsingTemplate(
+        emailService.sendSimpleMessage(
                 user.getEmail(),
                 "User Registration",
                 String.format("User was successfully Registered %s with UserName: %s and Password: %s",event.getAppUrl(),user.getUsername(), event.getPassword()));
