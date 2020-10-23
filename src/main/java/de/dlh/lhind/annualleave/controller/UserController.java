@@ -32,12 +32,12 @@ public class UserController {
     }
 
     @PostMapping("/resetPassword")
-    ResponseEntity<User> resetPassword(@RequestParam("username") String username, HttpServletRequest request) {
+    public ResponseEntity<User> resetPassword(@RequestParam("username") String username, HttpServletRequest request) {
         return new ResponseEntity<>(
                 userService
                         .resetPassword(
                                 username,
-                                "http://${request.serverName}:${request.serverPort}${request.contextPath}"
+                                String.format("http://%s:%s%s", request.getServerName(), request.getServerPort(), request.getContextPath())
                         ),
                 HttpStatus.OK);
     }

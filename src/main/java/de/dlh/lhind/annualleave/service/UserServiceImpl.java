@@ -118,9 +118,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User resetPassword(String username, String appUrl) {
-        User user = findByUsername(authenticationFacade.authentication().getName());
+        User user = findByUsername(username);
         String password = generateRandomPassword(8, 97, 122);
-        user.setPassword(password);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         User mUser = userRepository.save(user);
         applicationEventPublisher.publishEvent(new OnRegistrationEvent(mUser, appUrl, password));
         return mUser;

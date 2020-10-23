@@ -6,8 +6,8 @@ public class SecurityConstants {
     static final String TOKEN_PREFIX = "Bearer ";
     static final String HEADER_STRING = "Authorization";
     static final String AUTHORITIES = "AUTHORITIES";
-    static final String SIGN_UP_URL = "/sign-up";
     static final String SIGN_IN_URL = "/login";
+    static final String RESET_PASSWORD = "/user/resetPassword";
     static final String CREATE_URL = "/user/create";
     static final String H2_CONSOLE = "/h2-console/**";
 }

@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JWTAuthorizationFilter(), JWTAuthenticationFilter.class)
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.POST, RESET_PASSWORD).permitAll()
                 .antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll()
                 .antMatchers(HttpMethod.POST, CREATE_URL).permitAll()
                 .antMatchers(H2_CONSOLE).permitAll()
