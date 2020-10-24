@@ -1,7 +1,5 @@
 package de.dlh.lhind.annualleave.security;
 
-import de.dlh.lhind.annualleave.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,21 +12,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static de.dlh.lhind.annualleave.security.SecurityConstants.*;
 
+/**
+ * https://www.baeldung.com/spring-security-logout
+ */
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
-
-    @Autowired
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         /*http.exceptionHandling()
                 // .authenticationEntryPoint(JwtAuthenticationEntryPoint())
                 .accessDeniedPage(PATH);*/
+        http
+                .logout()
+                .logoutSuccessUrl("/login.html")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
         http
                 // remove csrf and state in session because in jwt we do not need them
                 .csrf().disable()

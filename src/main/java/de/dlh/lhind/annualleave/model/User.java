@@ -9,6 +9,10 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * https://vladmihalcea.com/mariadb-10-3-database-sequences/
+ */
+
 @Entity
 @Table
 public class User implements Serializable, UserDetails {
