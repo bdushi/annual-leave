@@ -4,10 +4,19 @@ import de.dlh.lhind.annualleave.model.Authority;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserDto {
     private final String firstName;
     private final String lastName;
+    @NotBlank
+	@Size(max = 50)
     private final String username;
+    @NotBlank
+    @Email
+	@Size(max = 50)
     private final String email;
     private final boolean enable;
     private final Collection<Authority> authorities;

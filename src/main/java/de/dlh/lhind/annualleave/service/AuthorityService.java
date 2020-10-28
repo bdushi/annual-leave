@@ -1,7 +1,6 @@
 package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.model.Authority;
-import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.repository.AuthorityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AuthorityService {
