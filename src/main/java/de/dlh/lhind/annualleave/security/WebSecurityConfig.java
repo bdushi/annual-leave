@@ -50,10 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, jwtConfig.getSignIn()).permitAll()
                 .antMatchers(HttpMethod.POST, jwtConfig.getCreateUser()).permitAll()
                 .antMatchers(jwtConfig.getH2Console()).permitAll()
-                /*
-                 * Creating a React app with Spring Security
-                 * https://guides.grails.org/react-spring-security/guide/index.html
-                 */
                 .antMatchers(
                         "/v2/api-docs",
                         "/configuration/ui",

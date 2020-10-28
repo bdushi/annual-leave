@@ -23,8 +23,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final JwtConfig jwtConfig;
     public JWTAuthenticationFilter(
             AuthenticationManager authenticationManager,
-            JwtConfig jwtConfig
-    ) {
+            JwtConfig jwtConfig) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
     }
