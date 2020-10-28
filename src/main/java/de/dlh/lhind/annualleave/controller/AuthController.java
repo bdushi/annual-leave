@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 /*
  * https://ducmanhphan.github.io/2019-02-22-Logout-in-Spring-Boot/
+ *
+ * https://stackoverflow.com/questions/43569723/jwt-authentication-how-to-implement-logout
  */
 
 @RestController

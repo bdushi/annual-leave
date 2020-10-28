@@ -3,7 +3,6 @@ package de.dlh.lhind.annualleave.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,22 +15,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
-import java.util.function.IntFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static de.dlh.lhind.annualleave.security.SecurityConstants.*;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
-    @Autowired
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    private final JwtConfig jwtConfig;
+    public JWTAuthenticationFilter(
+            AuthenticationManager authenticationManager,
+            JwtConfig jwtConfig
+    ) {
         this.authenticationManager = authenticationManager;
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
@@ -52,10 +47,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .map((Function<GrantedAuthority, String>) GrantedAuthority::getAuthority).toArray(String[]::new);
         String token = JWT.create()
                 .withSubject(authResult.getName())
-                .withArrayClaim(AUTHORITIES, auth)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .withArrayClaim(jwtConfig.getAuthorities(), auth)
+                .withExpiresAt(new Date(System.currentTimeMillis() + jwtConfig.getExpirationTime()))
                 .withIssuedAt(new Date())
-                .sign(Algorithm.HMAC512(SECRET.getBytes()));
-        response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+                .sign(Algorithm.HMAC512(jwtConfig.getSecret().getBytes()));
+        response.addHeader(jwtConfig.getHeader(), jwtConfig.getTokenPrefix() + token);
     }
 }

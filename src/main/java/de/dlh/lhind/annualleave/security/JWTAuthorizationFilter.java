@@ -14,30 +14,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import static de.dlh.lhind.annualleave.security.SecurityConstants.*;
-
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
+    private final JwtConfig jwtConfig;
+    public JWTAuthorizationFilter(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         // Read the Authorization header, where the JWT token should be
-        String header = httpServletRequest.getHeader(HEADER_STRING);
+        String header = httpServletRequest.getHeader(jwtConfig.getHeader());
         // If header does not contain BEARER or is null delegate to Spring impl and exit
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (header == null || !header.startsWith(jwtConfig.getTokenPrefix())) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
         try {
             // Parse the token.
             DecodedJWT decodedUser = JWT
-                    .require(Algorithm.HMAC512(SECRET.getBytes()))
+                    .require(Algorithm.HMAC512(jwtConfig.getSecret().getBytes()))
                     .build()
-                    .verify(header.replace(TOKEN_PREFIX, ""));
+                    .verify(header.replace(jwtConfig.getTokenPrefix(), ""));
             // If header is present, try grab user principal from database and perform authorization
             SecurityContextHolder
                     .getContext()
@@ -46,7 +45,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                                     decodedUser.getSubject(),
                                     null,
                                     Arrays.stream(decodedUser
-                                            .getClaim(AUTHORITIES)
+                                            .getClaim(jwtConfig.getAuthorities())
                                             .asArray(String.class))
                                             .map(new Function<String, GrantedAuthority>() {
                                                 @Override

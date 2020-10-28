@@ -1,6 +1,5 @@
 package de.dlh.lhind.annualleave.security;
 
-import de.dlh.lhind.annualleave.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,16 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import static de.dlh.lhind.annualleave.security.SecurityConstants.*;
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
-
+    private final JwtConfig jwtConfig;
     @Autowired
-    public WebSecurityConfig(UserService userService) {
-        this.userService = userService;
+    public WebSecurityConfig(JwtConfig jwtConfig) {
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
@@ -46,14 +42,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // .headers().frameOptions().sameOrigin()
                 // add jwt filters (1. authentication, 2. authorization)
-                .addFilter(new JWTAuthenticationFilter(authenticationManagerBean()))
-                .addFilterAfter(new JWTAuthorizationFilter(), JWTAuthenticationFilter.class)
+                .addFilter(new JWTAuthenticationFilter(authenticationManagerBean(), jwtConfig))
+                .addFilterAfter(new JWTAuthorizationFilter(jwtConfig), JWTAuthenticationFilter.class)
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, RESET_PASSWORD).permitAll()
-                .antMatchers(HttpMethod.POST, SIGN_IN_URL).permitAll()
-                .antMatchers(HttpMethod.POST, CREATE_URL).permitAll()
-                .antMatchers(H2_CONSOLE).permitAll()
+                .antMatchers(HttpMethod.POST, jwtConfig.getResetPassword()).permitAll()
+                .antMatchers(HttpMethod.POST, jwtConfig.getSignIn()).permitAll()
+                .antMatchers(HttpMethod.POST, jwtConfig.getCreateUser()).permitAll()
+                .antMatchers(jwtConfig.getH2Console()).permitAll()
                 /*
                  * Creating a React app with Spring Security
                  * https://guides.grails.org/react-spring-security/guide/index.html
