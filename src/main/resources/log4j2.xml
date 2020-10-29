@@ -19,23 +19,22 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
+        <!-- SMTP Appender -->
+        <SMTP name="Annual-Leave Error Appender"
+              subject="annual-leave [DEBUG]"
+              to="brunodushi@gmail.com"
+              from="brddev@gmail.com"
+              smtpHost="smtp.gmail.com"
+              smtpPort="587"
+              smtpUsername="brddev@gmail.com"
+              smtpPassword="jdqk okor shtu pevb"
+              bufferSize="1">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+        </SMTP>
     </Appenders>
-
-    <!-- SMTP Appender -->
-    <SMTP name="MailAppender"
-          subject="annual-leave [DEBUG]"
-          to="brunodushi@gmail.com"
-          from="brddev@gmail.com"
-          smtpHost="smtp.gmail.com"
-          smtpPort="587"
-          smtpUsername="brddev@gmail.com"
-          smtpPassword="jdqk okor shtu pevb"
-          bufferSize="1">
-        <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
-        <PatternLayout>
-            <Pattern>${LOG_PATTERN}</Pattern>
-        </PatternLayout>
-    </SMTP>
 
     <Loggers>
         <Root level="info">
