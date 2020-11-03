@@ -12,6 +12,7 @@ public class JwtConfig {
     private String header;
     private String authorities;
     private String signIn;
+    private String signOut;
     private String resetPassword;
     private String createUser;
     private String h2Console;
@@ -62,6 +63,14 @@ public class JwtConfig {
 
     public void setSignIn(String signIn) {
         this.signIn = signIn;
+    }
+
+    public String getSignOut() {
+        return signOut;
+    }
+
+    public void setSignOut(String signOut) {
+        this.signOut = signOut;
     }
 
     public String getResetPassword() {

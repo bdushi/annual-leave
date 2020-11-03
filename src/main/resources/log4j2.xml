@@ -29,7 +29,6 @@
               smtpUsername="brddev@gmail.com"
               smtpPassword="jdqk okor shtu pevb"
               bufferSize="1">
-            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout>
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>

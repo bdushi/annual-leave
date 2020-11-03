@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtConfig jwtConfig;
+
     @Autowired
     public WebSecurityConfig(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
@@ -40,31 +42,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // H2 console in Spring Boot show a blank screen after logging in?
                 .headers().frameOptions().disable()
                 .and()
-                // .headers().frameOptions().sameOrigin()
-                // add jwt filters (1. authentication, 2. authorization)
-                .addFilter(new JWTAuthenticationFilter(authenticationManagerBean(), jwtConfig))
-                .addFilterAfter(new JWTAuthorizationFilter(jwtConfig), JWTAuthenticationFilter.class)
-                .authorizeRequests()
-                // configure access rules
-                .antMatchers(HttpMethod.POST, jwtConfig.getResetPassword()).permitAll()
-                .antMatchers(HttpMethod.POST, jwtConfig.getSignIn()).permitAll()
-                .antMatchers(HttpMethod.POST, jwtConfig.getCreateUser()).permitAll()
-                .antMatchers(jwtConfig.getH2Console()).permitAll()
-                .antMatchers(
-                        "/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/swagger-ui/index.html",
-                        "/webjars/**",
-                        "/swagger.json",
-                        "/swagger-ui/**",
-                        "/swagger-resources/**"
-                )
-                .permitAll()
-                .anyRequest()
-                .authenticated();
+                .authorizeRequests(configure ->
+                        // configure access rules
+                        configure.antMatchers(
+                                jwtConfig.getResetPassword(),
+                                jwtConfig.getSignIn(),
+                                jwtConfig.getCreateUser(),
+                                jwtConfig.getH2Console(),
+                                jwtConfig.getSignOut(),
+                                "/v2/api-docs",
+                                "/configuration/ui",
+                                "/swagger-resources",
+                                "/configuration/security",
+                                "/swagger-ui.html",
+                                "/swagger-ui/index.html",
+                                "/webjars/**",
+                                "/swagger.json",
+                                "/swagger-ui/**",
+                                "/swagger-resources/**"
+                        )
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
     }
 
     /*@Bean
@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    protected BCryptPasswordEncoder passwordEncoder()  {
+    protected BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
