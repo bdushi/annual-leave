@@ -12,8 +12,10 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static de.dlh.lhind.annualleave.common.Common.PATH;
+
 @Configuration
-@EnableWebSecurity
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtConfig jwtConfig;
 
@@ -27,7 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /*http.exceptionHandling()
                 // .authenticationEntryPoint(JwtAuthenticationEntryPoint())
                 .accessDeniedPage(PATH);*/
-        http
+        http.exceptionHandling()
+                .accessDeniedPage(PATH)
+                .and()
                 // remove csrf and state in session because in jwt we do not need them
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -59,7 +63,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/webjars/**",
                                 "/swagger.json",
                                 "/swagger-ui/**",
-                                "/swagger-resources/**"
+                                "/swagger-resources/**",
+                                // Web App
+                                "/index.html",
+                                "/global.css",
+                                "/favicon.png",
+                                "/favicon.ico",
+                                "/**/assets/**",
+                                "/**/*.png",
+                                "/**/*.gif",
+                                "/**/*.svg",
+                                "/**/*.jpg",
+                                "/**/*.html",
+                                "/**/*.css",
+                                "/**/*.map",
+                                "/**/*.js",
+                                "/build/bundle.js",
+                                "/build/bundle.css"
                         )
                                 .permitAll()
                                 .anyRequest()

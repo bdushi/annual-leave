@@ -107,13 +107,17 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.7.6</version>
 				<configuration>
-					<nodeVersion>v8.11.3</nodeVersion>
-					<npmVersion>6.3.0</npmVersion>
-					<workingDirectory>src/main/client/</workingDirectory>
+<!--					<workingDirectory>src/main/my-app</workingDirectory>-->
+					<workingDirectory>src/main/client</workingDirectory>
+					<installDirectory>target</installDirectory>
+					<nodeVersion>v12.13.1</nodeVersion>
+					<npmVersion>6.12.1</npmVersion>
 				</configuration>
 				<executions>
 					<execution>
@@ -122,11 +126,16 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 					</execution>
+
 					<execution>
 						<id>npm install</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
+						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
 					</execution>
 					<execution>
 						<id>npm run build</id>
@@ -137,7 +146,7 @@
 							<arguments>run build</arguments>
 						</configuration>
 					</execution>
-					<execution>
+					<!--<execution>
 						<id>prod</id>
 						<goals>
 							<goal>npm</goal>
@@ -146,9 +155,77 @@
 							<arguments>run-script build</arguments>
 						</configuration>
 						<phase>generate-resources</phase>
+					</execution>-->
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Copy my react app into my Spring Boot target static folder</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/client/public</directory>
+<!--									<directory>src/main/my-app/build</directory>-->
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
+
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>build/resources/main/static/.</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/client/public/build/</directory>
+									<includes>
+										<include>**/*.*</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
+
+			<!--<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<configuration>
+							<target>
+								<copy todir="${project.build.directory}/classes/public">
+									<fileset dir="${project.basedir}/src/main/client/build"/>
+								</copy>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>-->
         </plugins>
 	</build>
 

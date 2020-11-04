@@ -11,4 +11,5 @@ public class Common {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
     }
+    public static final String PATH = "/error";
 }
