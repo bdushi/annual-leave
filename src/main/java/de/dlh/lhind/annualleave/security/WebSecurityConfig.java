@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // remove csrf and state in session because in jwt we do not need them
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 // .and()
                 // .logout()
                 // .permitAll()
@@ -42,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // .logoutSuccessUrl("/static/login.html")
                 // .invalidateHttpSession(true)
                 // .deleteCookies("JSESSIONID")
+                //Fixed cors
+                .cors()
                 .and()
                 // H2 console in Spring Boot show a blank screen after logging in?
                 .headers().frameOptions().disable()
@@ -65,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 "/swagger-ui/**",
                                 "/swagger-resources/**",
                                 // Web App
+                                "/",
                                 "/index.html",
                                 "/global.css",
                                 "/favicon.png",

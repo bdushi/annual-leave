@@ -38,7 +38,7 @@ public class JwtHelper {
 						.map((Function<GrantedAuthority, String>) GrantedAuthority::getAuthority).toArray(String[]::new))
 				.withIssuedAt(new Date())
 				.withNotBefore(new Date())
-				.withExpiresAt(new Date())
+				.withExpiresAt(calendar.getTime())
 				.sign(Algorithm.RSA256(publicKey, privateKey));
 	}
 }
