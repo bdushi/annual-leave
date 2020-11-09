@@ -1,9 +1,10 @@
+<!-- https://css-tricks.com/everything-you-need-to-know-about-date-in-javascript/ -->
 <script>
 import { onMount } from "svelte";
-import axios from "axios";;
+import axios from "axios";
 	export let name;
 	let leaves = [];
-	axios.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJicnVub2R1c2hpIiwibmJmIjoxNjA0NTkxNjg1LCJpZCI6MSwiZXhwIjoxNjA0Njc4MDg1LCJpYXQiOjE2MDQ1OTE2ODUsImF1dGhvcml0aWVzIjpbIkVNUExPWUVFIl0sInVzZXJuYW1lIjoiYnJ1bm9kdXNoaSJ9.RbywQ-PLHIv2lFtT2CfAKlAVQTydpKXG7TcDZHVFsXDILjJnnxjOraqCNBWOdqfUi6vsaamgKLlTc2hXdg1Sn8C7mwP0nJ1YHtyqSw5FvHSfparyqoyfC1azST_0Afo7Rp0O-s00MlOlIVC0rBU7Z0X0NYRo46emt3QXPAqs-ZaZYXjtCSnQ6Saih17xHkXImwkNTSWCry-wyYKSg1zIu3Y5a48I6xxQRVrisdEp_U7HY1p9pCCI6g6mJQz_1qMRecg12yAgvbrJ93HoCMpaLcRDJa1lw4aRQPvkWUEr3yFgoHWptxzBRyd8342LG-O2O3MMlPzyeGlGMnQw18lhAw";
+	axios.defaults.headers.common['Authorization'] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJicnVub2R1c2hpIiwibmJmIjoxNjA0OTI2ODA2LCJpZCI6MSwiZXhwIjoxNjA1MDEzMjA2LCJpYXQiOjE2MDQ5MjY4MDYsImF1dGhvcml0aWVzIjpbIkVNUExPWUVFIl0sInVzZXJuYW1lIjoiYnJ1bm9kdXNoaSJ9.QWUZ0cT2Rs0Qahif69aL_LLhwa-Z1WklmupPnMV0F00Hm6i5y0js0Ta1qskpO59BVfB4lhrCUw0YYRrJpyeZ1dhXnI4dgcg790GHGjL58T3hPJprvxmx0rsHH0cmHk1N8eJnp9Q_xaG3CntlozlRq1E-2OGZ3PBFxvYMw77dGQ18lNJ4uFP73GcIE-NNrSFHNmVct3whKqqEg7CUFRYyQc3r7sEPl3OXyOS4A3-TZmmae73M6s8WOpNJWGNRPJnN0bp17cYzuy9BiJ7d_wB4GVpAVN3v31AEv2-v1Gxb_YPrRyCSLaByIokccI4XU5OETmEE-u1vlkgpihyy4VREZA";
 	onMount(async () => {
 		axios
 		.get("http://localhost:8080/leave")
@@ -19,36 +20,72 @@ import axios from "axios";;
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-	<div>
-		{#if leaves}
-		<ul style="line-height:180%">
-			{#each leaves as leave}
-			<li>
-				{leave.requestedBy.username} {leave.createDate} {leave.leaveTypes.description} {leave.description} {leave.comment}
-			</li>
-			{/each}
-		</ul>
-		{:else}
-		  <p>Loading.....</p>
-		{/if}
-	</div>
+	<h1>{name}</h1>
+	{#if leaves.length !== 0}
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Requested By</th>
+			<th>Requested Date</th>
+			<th>Start Date</th>
+			<th>End Date</th>
+			<th>Leave Type</th>
+			<th>Leave Description</th>
+			<th>Leave Comment</th>
+			<th>Approved</th>
+		</tr>
+		{#each leaves as leave , i (i)}
+		<tr class:odd={i%2}>
+			<td>{i + 1}</td>
+			<td>{leave.requestedBy.username}</td>
+			<td>{new Date(leave.createDate).toLocaleString('en-GB')} </td>
+			<td>{new Date(leave.startDate).toLocaleString('en-GB')} </td>
+			<td>{new Date(leave.endDate).toLocaleString('en-GB')} </td>
+			<td>{leave.leaveTypes.description}</td>
+			<td>{leave.description}</td>
+			<td>{leave.comment}</td>
+		</tr> 
+		{/each}
+	</table>
+	{:else}
+		<p>Loading.....</p>
+	{/if}
 </main>
 
 <style>
 	main {
-		text-align: center;
 		padding: 1em;
-		max-width: 240px;
 		margin: 0 auto;
 	}
 
 	h1 {
+		text-align: left center;
 		color: #ff3e00;
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: 2em;
 		font-weight: 100;
+	}
+
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		empty-cells: show;
+		align-items: center;
+		table-layout: fixed;
+	}
+	table th {
+		background-color: #eee;
+	}
+	table th, table td {
+		padding: 10px;
+		margin-left: 10px;
+		text-align: left;
+	}
+	table td input {
+		margin-bottom: 0;
+	}
+	table tr.odd {
+		background-color: #eee;
 	}
 
 	@media (min-width: 640px) {

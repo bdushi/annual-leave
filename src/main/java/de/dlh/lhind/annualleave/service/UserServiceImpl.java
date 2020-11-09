@@ -3,15 +3,20 @@ package de.dlh.lhind.annualleave.service;
 import de.dlh.lhind.annualleave.authentication.AuthenticationFacade;
 import de.dlh.lhind.annualleave.dto.UserDto;
 import de.dlh.lhind.annualleave.event.OnRegistrationEvent;
+import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.UserRepository;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 import static de.dlh.lhind.annualleave.common.Common.generateRandomPassword;
@@ -99,6 +104,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Iterable<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public Iterable<User> findAllByAuthority() {
+        String username = authenticationFacade.authentication().getName();
+        return userRepository.findAll((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("requestedBy").get("username"), username)));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        });
     }
 
     @Override

@@ -11,4 +11,5 @@ public interface UserService extends UserDetailsService {
     User register(UserDto userDto , String appUrl);
     User update(UserDto userDto);
     Iterable<User> findAll();
+    Iterable<User> findAllByAuthority();
 }
