@@ -16,7 +16,6 @@ import axios from "axios";
 			console.log(error)
       });
 	});
-	console.log("Test")
 </script>
 
 <main>

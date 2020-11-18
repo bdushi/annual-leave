@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.21.0",
+    "bootstrap": "^5.0.0-alpha3",
     "sirv-cli": "^1.0.0"
   }
 }

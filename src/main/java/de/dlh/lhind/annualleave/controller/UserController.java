@@ -22,8 +22,13 @@ public class UserController {
     }
 
     @GetMapping
-    ResponseEntity<User> findByUsername(@AuthenticationPrincipal @RequestParam("username")String username) {
+    ResponseEntity<User> findByUsername(@AuthenticationPrincipal @RequestParam("username") String username) {
         return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/byAuthority")
+    ResponseEntity<Iterable<User>> findAllByAuthority() {
+        return new ResponseEntity<>(userService.findAllByAuthority(), HttpStatus.OK);
     }
 
     @PostMapping("/updatePassword")
