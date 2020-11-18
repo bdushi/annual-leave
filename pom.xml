@@ -173,8 +173,7 @@
 							<outputDirectory>target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/client/public</directory>
-<!--									<directory>src/main/my-app/build</directory>-->
+									<directory>src/main/client/build</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
