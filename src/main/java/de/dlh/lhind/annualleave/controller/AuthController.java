@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  *
  * https://stackoverflow.com/questions/43569723/jwt-authentication-how-to-implement-logout
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
