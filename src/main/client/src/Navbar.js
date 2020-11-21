@@ -15,7 +15,7 @@ const Navbar = ({totalCounters}) => {
         </button>
         <div className="mr-auto collapse navbar-collapse" id="navbarNav">
           <div className="navbar-nav">
-            <a className="nav-link">Settings</a>
+            <a className="nav-link">Profile</a>
             <a className="nav-link">Pricing</a>
             <a className="nav-link">Disabled</a>
           </div>

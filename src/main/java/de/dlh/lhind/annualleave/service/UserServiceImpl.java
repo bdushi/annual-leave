@@ -49,10 +49,10 @@ public class UserServiceImpl implements UserService {
         }
     }
     @Override
-    public User findByUsername(String username) {
+    public User findByUsername() {
         try {
             return userRepository
-                    .findByUsername(username)
+                    .findByUsername(authenticationFacade.authentication().getName())
                     .orElseThrow(
                             (Supplier<Throwable>) () -> new RuntimeException("User not Found")
                     );
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(UserDto userDto) {
-        User user = findByUsername(authenticationFacade.authentication().getName());
+        User user = findByUsername();
         if(user.getUsername().equals(userDto.getUsername())) {
             return userRepository.save(
                     new User(
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updatePassword(String oldPassword, String newPassword) {
         try {
-            User user = findByUsername(authenticationFacade.authentication().getName());
+            User user = findByUsername();
             if (new BCryptPasswordEncoder().matches(oldPassword, user.getPassword())) {
                 user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
                 return userRepository.save(user);
@@ -138,8 +138,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User resetPassword(String username, String appUrl) {
-        User user = findByUsername(username);
+    public User resetPassword(String appUrl) {
+        User user = findByUsername();
         String password = generateRandomPassword(8, 97, 122);
         user.setPassword(new BCryptPasswordEncoder().encode(password));
         User mUser = userRepository.save(user);

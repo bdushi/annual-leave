@@ -22,7 +22,7 @@ public class AuthService {
     }
 
     public String signIn(String username, String password) {
-        User user = userService.findByUsername(username);
+        User user = (User) userService.loadUserByUsername(username);
 		if (passwordEncoder.matches(password, user.getPassword())) {
 			return jwtHelper.createJwtForClaims(user);
 		} else {

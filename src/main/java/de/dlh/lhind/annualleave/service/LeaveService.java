@@ -6,7 +6,6 @@ import de.dlh.lhind.annualleave.event.ApprovedLeaveRequestListener;
 import de.dlh.lhind.annualleave.event.LeaveListener;
 import de.dlh.lhind.annualleave.event.OnApprovedLeaveRequestEvent;
 import de.dlh.lhind.annualleave.event.OnLeaveEvent;
-import de.dlh.lhind.annualleave.model.Approved;
 import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.LeaveRepository;
@@ -16,23 +15,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 @Service
 public class LeaveService {
     private final LeaveRepository leaveRepository;
     private final UserService userService;
-    private final AuthenticationFacade authenticationFacade;
     private final LeaveListener leaveListener;
     private final ApprovedLeaveRequestListener approvedLeaveRequestListener;
 
@@ -40,18 +34,16 @@ public class LeaveService {
     public LeaveService(
             LeaveRepository leaveRepository,
             UserService userService,
-            AuthenticationFacade authenticationFacade,
             LeaveListener leaveListener,
             ApprovedLeaveRequestListener approvedLeaveRequestListener) {
         this.leaveRepository = leaveRepository;
         this.userService = userService;
-        this.authenticationFacade = authenticationFacade;
         this.leaveListener = leaveListener;
         this.approvedLeaveRequestListener = approvedLeaveRequestListener;
     }
 
     public Leave applyForLeave(LeaveDto leaveDto) {
-        User user = userService.findByUsername(authenticationFacade.authentication().getName());
+        User user = userService.findByUsername();
         if(ChronoUnit.DAYS.between(user.getEmploymentDate(), ZonedDateTime.now()) < 90) {
             throw new RuntimeException("You must have ate least 90 days employeed");
         } else if(leaveDto.getEndDate().compareTo(leaveDto.getStartDate()) < 1) {

@@ -38,6 +38,6 @@ public class UserTests {
 
     @Test
     private void resetPassword() {
-        userService.resetPassword("brunodushi", "http://localhost:8080");
+        userService.resetPassword("http://localhost:8080");
     }
 }

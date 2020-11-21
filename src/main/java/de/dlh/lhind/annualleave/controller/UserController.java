@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -22,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping
-    ResponseEntity<User> findByUsername(@AuthenticationPrincipal @RequestParam("username") String username) {
-        return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
+    ResponseEntity<User> findByUsername() {
+        return new ResponseEntity<>(userService.findByUsername(), HttpStatus.OK);
     }
 
     @GetMapping("/byAuthority")
@@ -41,7 +42,6 @@ public class UserController {
         return new ResponseEntity<>(
                 userService
                         .resetPassword(
-                                username,
                                 String.format("http://%s:%s%s", request.getServerName(), request.getServerPort(), request.getContextPath())
                         ),
                 HttpStatus.OK);

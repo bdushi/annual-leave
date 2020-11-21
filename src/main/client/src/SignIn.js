@@ -56,20 +56,30 @@ function submit(props, username, password) {
     formData.append("username", username);
     formData.append("password", password);
     axios
-        .post("/auth/login", formData, { "Content-Type": "application/x-www-form-urlencoded" })
+        .post(
+            '/auth/login', 
+            formData, 
+            { "Content-Type": "application/x-www-form-urlencoded" })
         // .post("/auth/login", formData, { "Content-Type": "multipart/form-data" })
-        .then((response) => {
-            console.log(response.headers)
-            console.log(response)
-            localStorage.setItem("token", response.headers.authorization);
-            // localStorage.setItem("user", JSON.stringify(response.data))
-            // make anothre call to feach user
-            // this.setState({ open: true, vertical: "top", horizontal: "right", message:"Logged In successfully" });
+        .then(function (response) {
+            localStorage.setItem("token", response.data);
+            // feach user
+            console.log(response.headers);
+            // axios({
+            //     method: 'get',
+            //     url: '/user',
+            //     responseType: 'stream'
+            //   })
+            //     .then(function (response) {
+            //         localStorage.setItem("user", JSON.stringify(response.data))
+            //     }).catch(function (error) {
+            //         console.log(error)
+            //     });
+            // Pop to root
             props.history.push("/");
         })
-        .catch((error) => {
+        .catch(function (error) {
             console.log(error)
-            // this.setState({ open: true, vertical: "top", horizontal: "right", message:"Incorrect Username or Password!" });
         });
 }
 

@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
     User updatePassword(String oldPassword , String newPassword);
-    User resetPassword(String username, String appUrl);
-    User findByUsername(String username);
+    User resetPassword(String appUrl);
+    User findByUsername();
     User register(UserDto userDto , String appUrl);
     User update(UserDto userDto);
     Iterable<User> findAll();

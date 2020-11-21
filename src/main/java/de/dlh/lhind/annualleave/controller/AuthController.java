@@ -5,11 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.dlh.lhind.annualleave.service.AuthService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * https://ducmanhphan.github.io/2019-02-22-Logout-in-Spring-Boot/
@@ -39,11 +44,12 @@ public class AuthController {
         return "redirect:/login?logout";
     }
     @PostMapping(path = "login", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-    public void login(
+    public ResponseEntity<String> login(
             @RequestParam String username,
             @RequestParam String password,
             HttpServletResponse httpServletResponse) {
         httpServletResponse
                 .addHeader("Authorization", String.format("Bearer %s", authService.signIn(username, password)));
+        return new ResponseEntity<>(String.format("Bearer %s", authService.signIn(username, password)), HttpStatus.OK);
     }
 }
