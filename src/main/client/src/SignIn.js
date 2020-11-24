@@ -63,20 +63,20 @@ function submit(props, username, password) {
         // .post("/auth/login", formData, { "Content-Type": "multipart/form-data" })
         .then(function (response) {
             localStorage.setItem("token", response.data);
-            // feach user
-            console.log(response.headers);
-            // axios({
-            //     method: 'get',
-            //     url: '/user',
-            //     responseType: 'stream'
-            //   })
-            //     .then(function (response) {
-            //         localStorage.setItem("user", JSON.stringify(response.data))
-            //     }).catch(function (error) {
-            //         console.log(error)
-            //     });
-            // Pop to root
             props.history.push("/");
+            console.log(response.headers);
+            // feach user
+            axios({
+                method: 'get',
+                url: '/user',
+                responseType: 'stream'
+              })
+                .then(function (response) {
+                    localStorage.setItem("user", JSON.stringify(response.data))
+                }).catch(function (error) {
+                    console.log(error)
+                });
+            // Pop to root
         })
         .catch(function (error) {
             console.log(error)

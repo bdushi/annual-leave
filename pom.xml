@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.dlh.lhind</groupId>
-	<artifactId>annual-leave </artifactId>
+	<artifactId>annual-leave</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>annual-leave</name>
 	<description>Demo project for Spring Boot</description>
