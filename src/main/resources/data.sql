@@ -27,6 +27,16 @@ INSERT INTO leave_types(types, description)
     ('VACATION', 'vacations'),
     ('COMPENSATION', 'compensation');
 
-INSERT INTO leave (comment, create_date, description, end_date, leave_types_id, requested_by_id, start_date)
+INSERT INTO leave(comment, create_date, description, end_date, leave_types_id, requested_by_id, start_date)
     VALUES
     ('Comment Debug', CURRENT_TIMESTAMP(), 'Description Debug', '2020-10-30T11:38:56.793276Z', 1, 1, '2020-10-22T11:38:56.793276Z');
+
+INSERT INTO approved(approved_date, comment, approved, approved_by_id, leave_id)
+    VALUES
+    ('2020-11-26T11:38:56.793276Z' , 'Chack Project Schedule', false, 3, 1),
+    ('2020-11-28T11:38:56.793276Z' , 'Not Approced', true, 3, 1),
+    (CURRENT_TIMESTAMP() , 'Approced', true, 3, 1);
+
+--INSERT INTO leave_approved(leave_id, approved_id)
+--    VALUES
+--    (1, 1);

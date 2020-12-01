@@ -11,6 +11,7 @@ import {
   Redirect
 } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { SignInRoute } from "./SignInRoute"
 
 function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
@@ -56,7 +57,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/(signIn)" component={LoginContainer}/>
+        {/* <Route exact path="/(signIn)" component={LoginContainer}/> */}
+        <Route exact path="/signIn" component={SignIn}/>
         <ProtectedRoute component={AppContainer}/>
       </Switch>
     </Router>

@@ -17,13 +17,11 @@ const Navbar = ({totalCounters}) => {
               <a className="nav-link">Profile</a>
               <a className="nav-link">Pricing</a>
               <a className="nav-link">Disabled</a>
-            </div>
-          <div clasclassNames="collapse navbar-collapse" id="navbarSupportedContent">
+          </div>
           <form className="d-flex">
             <input className="form-control mr-2" type="search" placeholder="Search" aria-label="Search"/>
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
-          </div>
         </div>
     </nav>
   );

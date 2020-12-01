@@ -1,5 +1,10 @@
+import { Approved } from "./Approved";
+
 export const Leaves = (props) => {
-    const { leaves, index } = props;
+    const { 
+            leaves
+        } = props;
+    
     return (
         <table className="table table-striped">
             <thead>
@@ -26,7 +31,7 @@ function renderTableData(leaves) {
     return leaves.map((leave, index) => {
         return(
             <tr key = { leave.id }>
-                <th scope="row">{index + 1}</th>
+                <th scope="row">{leave.id}</th>
                 <td>{leave.requestedBy.username}</td>
                 <td>{new Date(leave.createDate).toLocaleString('en-GB')} </td>
                 <td>{new Date(leave.startDate).toLocaleString('en-GB')} </td>
@@ -34,6 +39,7 @@ function renderTableData(leaves) {
                 <td>{leave.leaveTypes.description}</td>
                 <td>{leave.description}</td>
                 <td>{leave.comment}</td>
+                <td> <Approved leaveId = {leave.id} /> </td>
             </tr>
         )
     })

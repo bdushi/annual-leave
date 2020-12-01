@@ -12,6 +12,7 @@ import de.dlh.lhind.annualleave.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -84,8 +85,8 @@ public class LeaveService {
         }
     }
 
-    public List<Leave> findAll() {
-        return leaveRepository.findAll();
+    public Page<Leave> findAll(Pageable pageable) {
+        return leaveRepository.findAll(pageable);
     }
 
     public Page<Leave> findAll(int size, int page) {

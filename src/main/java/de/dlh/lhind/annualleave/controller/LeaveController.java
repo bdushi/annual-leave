@@ -3,6 +3,8 @@ package de.dlh.lhind.annualleave.controller;
 import de.dlh.lhind.annualleave.dto.LeaveDto;
 import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.service.LeaveService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +21,11 @@ public class LeaveController {
             LeaveService leaveService) {
         this.leaveService = leaveService;
     }
-    @GetMapping
-    ResponseEntity<List<Leave>> findAll() {
-        return new ResponseEntity<>(leaveService.findAll(), HttpStatus.OK);
+    @GetMapping(params = {"page", "size"})
+    ResponseEntity<Page<Leave>> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return new ResponseEntity<>(
+                leaveService.findAll(PageRequest.of(page, size)), HttpStatus.OK
+        );
     }
 
     @GetMapping("user")

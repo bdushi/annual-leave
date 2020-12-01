@@ -21,7 +21,8 @@ public class Leave implements Serializable {
     private User requestedBy;
     @OneToOne
     private LeaveTypes leaveTypes;
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, targetEntity = Approved.class)
+    @JoinColumn(name = "leave_id", insertable = false, updatable = false)
     private List<Approved> approved;
 
     public Leave() {
