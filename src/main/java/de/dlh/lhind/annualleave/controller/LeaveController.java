@@ -21,10 +21,10 @@ public class LeaveController {
             LeaveService leaveService) {
         this.leaveService = leaveService;
     }
-    @GetMapping(params = {"page", "size"})
-    ResponseEntity<Page<Leave>> findAll(@RequestParam("page") int page, @RequestParam("size") int size) {
+    @GetMapping(params = {"search", "page", "size"})
+    ResponseEntity<Page<Leave>> findAll(@RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("size") int size) {
         return new ResponseEntity<>(
-                leaveService.findAll(PageRequest.of(page, size)), HttpStatus.OK
+                leaveService.findAll(search, PageRequest.of(page, size)), HttpStatus.OK
         );
     }
 

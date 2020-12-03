@@ -1,6 +1,5 @@
 package de.dlh.lhind.annualleave.service;
 
-import de.dlh.lhind.annualleave.authentication.AuthenticationFacade;
 import de.dlh.lhind.annualleave.dto.LeaveDto;
 import de.dlh.lhind.annualleave.event.ApprovedLeaveRequestListener;
 import de.dlh.lhind.annualleave.event.LeaveListener;
@@ -85,8 +84,38 @@ public class LeaveService {
         }
     }
 
-    public Page<Leave> findAll(Pageable pageable) {
-        return leaveRepository.findAll(pageable);
+    public Page<Leave> findAll(String search, Pageable pageable) {
+        return leaveRepository.findAll(
+                (Specification<Leave>) (root, criteriaQuery, criteriaBuilder) -> {
+                    List<Predicate> predicates = new ArrayList<>();
+                    if (!search.equals("null")) {
+                        predicates
+                                .add(
+                                        criteriaBuilder
+                                                .or(
+                                                        criteriaBuilder
+                                                                .like(
+                                                                        root.get("requestedBy").get("username"),
+                                                                        "%"+search+"%"
+                                                                ),
+                                                        criteriaBuilder
+                                                                .like(
+                                                                        root.get("description"),
+                                                                        "%"+search+"%"
+                                                                ),
+                                                        criteriaBuilder
+                                                                .like(
+                                                                        root.get("comment"),
+                                                                        "%"+search+"%"
+                                                                )
+                                                )
+                                );
+                    }
+                    return criteriaBuilder
+                            .and(predicates.toArray(new Predicate[0]));
+                },
+                pageable
+        );
     }
 
     public Page<Leave> findAll(int size, int page) {

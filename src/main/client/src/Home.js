@@ -4,20 +4,8 @@ import React, { useState, useEffect } from "react";
 import { Leaves } from "./Leaves";
 import { Pagination } from "./Pagination";
 
-function leave() {
-    axios
-        .get("/leave?page=0&size=10", {
-            headers: {
-                'Authorization': localStorage.getItem("token")
-            }
-        }).then(function (response) {
-            console.log(response.data)
-        }).catch((error) => {
-            console.log(error)
-        });
-}
-
-function Home() {
+function Home(props) {
+    const { search } = props;
     const [leaves, setLeaves] = useState([])
     const [totalPages, setTotalPages] = useState([])
     const [totalElements, setTotalElements] = useState()
@@ -44,7 +32,7 @@ function Home() {
 
     useEffect(() => {
             axios
-                .get(`/leave?page=${currentPage}&size=10`)
+                .get(`/leave?search=${search}&page=${currentPage}&size=10`)
                 .then(function (response) {
                     setLeaves(response.data.content)
                     // setTotalPages([...Array(response.data.totalPages).keys()])

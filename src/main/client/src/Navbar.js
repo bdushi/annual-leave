@@ -1,8 +1,9 @@
-// Statless Functional Component
-import logo from './logo.svg';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import logo from './logo.svg'
 
-const Navbar = ({totalCounters}) => {
+const Navbar = (props) => {
+  const { onSearch } = props;
+  const [search, setSearch] = useState(null);
   return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -19,8 +20,18 @@ const Navbar = ({totalCounters}) => {
               <a className="nav-link">Disabled</a>
           </div>
           <form className="d-flex">
-            <input className="form-control mr-2" type="search" placeholder="Search" aria-label="Search"/>
-            <button className="btn btn-outline-success" type="submit">Search</button>
+            <input 
+              className="form-control mr-2" 
+              type="search" 
+              placeholder="Search" 
+              aria-label="Search"
+              onChange={event => setSearch(event.target.value)}/>
+            <button 
+              className="btn btn-outline-success" 
+              type="submit"
+              onClick={() => onSearch(search)}>
+                Search
+              </button>
           </form>
         </div>
     </nav>

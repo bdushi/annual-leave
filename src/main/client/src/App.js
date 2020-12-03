@@ -11,10 +11,13 @@ import {
   Redirect
 } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { SignInRoute } from "./SignInRoute"
+import { LeavesApproved } from "./LeavesApproved"
 
 function App() {
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [search, setSearch] = useState(null);
+  const onSearch = (search) => {
+    setSearch(search)
+};
   // <React.Fragment>
   //     <Navbar/>
   //       <main className="container">
@@ -37,9 +40,10 @@ function App() {
 
   const AppContainer = () => (
     <React.Fragment>
-      <Navbar/>
+      <Navbar onSearch = { onSearch }/>
       <main className="container">
-        <Route exact path="/" component={Home}/>
+        <Route exact path="/" component={props => <Home search={search} {...props}/>}/>
+        <Route exact path="/leavesApproved" component={LeavesApproved}/>
       </main>
     </React.Fragment>
   )
