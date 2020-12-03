@@ -1,17 +1,21 @@
 
 import axios from "axios"
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Leaves } from "./Leaves";
 import { Pagination } from "./Pagination";
+import { SearchContext } from "./context/SearchContext";
 
-function Home(props) {
-    const { search } = props;
+function Home() {
     const [leaves, setLeaves] = useState([])
     const [totalPages, setTotalPages] = useState([])
     const [totalElements, setTotalElements] = useState()
     const [numberOfElements, setNumberOfElements] = useState(0)
+    const [visibility, setVisibility] = useState(false)
+    const [messages, setMessages] = useState()
     
     const [currentPage, setCurrentPage] = useState(0);
+
+    const { search } = useContext(SearchContext);
     
     const page = (pageNum) => {
         setCurrentPage(pageNum);
@@ -40,15 +44,19 @@ function Home(props) {
                     setTotalElements(response.data.totalElements)
                     setNumberOfElements(response.data.numberOfElements)
                 }).catch((error) => {
-                    console.log(error)
+                    setVisibility(true)
+                    setMessages(error)
                 });
         }
-        ,[currentPage]
+        ,[currentPage, search]
     )
 
     return(
-        <div className="container">
+        <section>
+            <div className="container">
             <Leaves 
+                visibility = { visibility }
+                messages = { messages }
                 leaves = { leaves }/>
             <Pagination 
                 currentPage = {currentPage}
@@ -59,6 +67,7 @@ function Home(props) {
                 onNextPage = { nextPage }
                 onPreviousPage= { previousPage }/>
         </div>
+        </section>
     )
 }
 

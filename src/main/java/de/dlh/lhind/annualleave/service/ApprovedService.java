@@ -2,6 +2,8 @@ package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.model.Approved;
 import de.dlh.lhind.annualleave.repository.ApprovedRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -73,8 +75,11 @@ public class ApprovedService {
         });
     }
 
+    public List<Approved> findApprovedId(long id) {
+        return approvedRepository.findApprovedId(id);
+    }
 
-    public List<Approved> findAllByLeaveId(long id) {
-        return approvedRepository.findAllByLeaveId(id);
+    public Page<Approved> approved(long id, String search, Pageable pageable) {
+        return approvedRepository.approved(id, "%"+search+"%", pageable);
     }
 }

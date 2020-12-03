@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { SearchContext } from "./context/SearchContext";
 import logo from './logo.svg'
 
-const Navbar = (props) => {
-  const { onSearch } = props;
-  const [search, setSearch] = useState(null);
+const Navbar = () => {
+  const { onSearch } = useContext(SearchContext);
+
   return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
@@ -25,13 +26,13 @@ const Navbar = (props) => {
               type="search" 
               placeholder="Search" 
               aria-label="Search"
-              onChange={event => setSearch(event.target.value)}/>
-            <button 
-              className="btn btn-outline-success" 
-              type="submit"
-              onClick={() => onSearch(search)}>
-                Search
-              </button>
+              onChange={event => onSearch(event.target.value)}/>
+              {/* <button 
+                className="btn btn-outline-success" 
+                type="submit"
+                onClick={() => searchTerm(search)}>
+                  Search
+              </button> */}
           </form>
         </div>
     </nav>

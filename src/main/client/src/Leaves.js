@@ -6,6 +6,7 @@ import { Alert } from "./Alert";
 export const Leaves = (props) => {
     const { leaves } = props;
     const [visibility, setVisibility] = useState(false)
+    const [messages, setMessages] = useState()
 
     const time = () => {
         return setTimeout(() => { 
@@ -17,41 +18,58 @@ export const Leaves = (props) => {
         setVisibility(true);
         time();
     };
+
     const alertClose = () => {
         setVisibility(false)
         clearTimeout(time);
     }
 
+    const onMessages = (messages) => {
+        setMessages(messages)
+    }
+
+    useEffect(() => {
+        setVisibility(props.visibility)
+        setMessages(props.messages)
+    }
+    ,[props]
+)
+
     return (
-        <div>
-            <section>
-                <table className="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Requested By</th>
-                        <th scope="col">Requested Date</th>
-                        <th scope="col">Start Date</th>
-                        <th scope="col">End Date</th>
-                        <th scope="col">Leave Type</th>
-                        <th scope="col">Leave Description</th>
-                        <th scope="col">Leave Comment</th>
-                        <th scope="col">Approved</th>
-                    </tr>
-                    </thead> 
-                        <tbody>
-                            {
-                                leaves.map((leave, index) => {
-                                    return(
-                                        <LeavesBody leave = {leave} key = {leave.id} onLeavesApproved = {alertVisibility}/>
-                                    )
-                                })
-                            }
-                        </tbody>
-                </table>
-            </section>
-            <Alert messages = {"You don't have any response from for your Supervisor"} visibility = {visibility  ? "alert alert-primary alert-dismissible fade show" : "alert alert-primary alert-dismissible fade close"} onAlertClose = {alertClose}/>
-        </div>
+        <section>
+            <table className="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Requested By</th>
+                    <th scope="col">Requested Date</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Leave Type</th>
+                    <th scope="col">Leave Description</th>
+                    <th scope="col">Leave Comment</th>
+                    <th scope="col">Approved</th>
+                </tr>
+                </thead> 
+                    <tbody>
+                        {
+                            leaves.map((leave, index) => {
+                                return(
+                                    <LeavesBody 
+                                        leave = {leave} key = {leave.id} 
+                                        onLeavesApproved = {alertVisibility}
+                                        onMessages = { onMessages }/>
+                                )
+                            })
+                        }
+                    </tbody>
+            </table>
+            <Alert 
+                messages = { messages } 
+                visibility = {visibility  ? "alert alert-primary alert-dismissible fade show" : "alert alert-primary alert-dismissible fade close"} 
+                onAlertClose = {alertClose}
+            />
+        </section>
     );
 }
 

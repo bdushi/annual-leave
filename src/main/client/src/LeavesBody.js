@@ -3,7 +3,7 @@ import { LeaveStatus } from "./LeaveStatus";
 import { useHistory } from "react-router-dom";
 
 export const LeavesBody = (props) => {
-    const { leave, onLeavesApproved } = props;
+    const { leave, onLeavesApproved, onMessages } = props;
     const history = useHistory();
     return(
         <tr key = { leave.id }>
@@ -27,6 +27,7 @@ export const LeavesBody = (props) => {
                             });
                         } else {
                             onLeavesApproved();
+                            onMessages("You don't have any response from for your Supervisor");
                         }
                     }}
                     width="1em" 

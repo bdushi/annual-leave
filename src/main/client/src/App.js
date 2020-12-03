@@ -12,12 +12,14 @@ import {
 } from "react-router-dom";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { LeavesApproved } from "./LeavesApproved"
+import SearchProvider from "./context/SearchContext";
 
 function App() {
-  const [search, setSearch] = useState(null);
-  const onSearch = (search) => {
-    setSearch(search)
-};
+  // const [search, setSearch] = useState(null);
+  // const onSearch = (search) => {
+  //   setSearch(search)
+  
+  // };
   // <React.Fragment>
   //     <Navbar/>
   //       <main className="container">
@@ -39,13 +41,16 @@ function App() {
   )
 
   const AppContainer = () => (
-    <React.Fragment>
-      <Navbar onSearch = { onSearch }/>
-      <main className="container">
-        <Route exact path="/" component={props => <Home search={search} {...props}/>}/>
-        <Route exact path="/leavesApproved" component={LeavesApproved}/>
-      </main>
-    </React.Fragment>
+    <SearchProvider>
+      <React.Fragment>
+        <Navbar/>
+        <main className="container">
+          <Route exact path="/" component={Home}/>
+          {/* <Route exact path="/" component={props => <Home search={search} {...props}/>}/> */}
+          <Route exact path="/leavesApproved" component={LeavesApproved}/>
+        </main>
+      </React.Fragment>
+    </SearchProvider>
   )
 
   const DefaultContainer = () => (
