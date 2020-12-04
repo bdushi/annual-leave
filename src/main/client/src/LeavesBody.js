@@ -3,8 +3,9 @@ import { LeaveStatus } from "./LeaveStatus";
 import { useHistory } from "react-router-dom";
 
 export const LeavesBody = (props) => {
-    const { leave, onLeavesApproved, onMessages } = props;
+    const { leave, onLeavesApproved, onMessages, onApproveLeave } = props;
     const history = useHistory();
+    
     return(
         <tr key = { leave.id }>
             <th scope="row">{leave.id}</th>
@@ -15,7 +16,7 @@ export const LeavesBody = (props) => {
             <td>{leave.leaveTypes.description}</td>
             <td>{leave.description}</td>
             <td>{leave.comment}</td>
-            <td> <LeaveStatus leaveId = {leave.id} /> </td>
+            <td> <LeaveStatus leaveId = {leave.id} onApproveLeave = { onApproveLeave }/> </td>
             <td>
                 <svg
                     onClick={() => {

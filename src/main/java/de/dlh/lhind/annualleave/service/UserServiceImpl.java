@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -113,7 +112,7 @@ public class UserServiceImpl implements UserService {
         String username = authenticationFacade.authentication().getName();
         return userRepository.findAll((Specification<User>) (root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
-            if(root.get("authorities").get("authority").equals("ADMIN")) {
+            if(root.get("authorities").get("Authority").equals("ADMIN")) {
                 predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("authorities").get("authority"), "EMPLOYEE")));
             } else {
                 predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("username"), username)));

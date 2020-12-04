@@ -25,7 +25,7 @@ public class User implements Serializable, UserDetails {
     @Column(nullable = false)
     private String password;
     private final boolean enable;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private final Collection<Authority> authorities;
     private final ZonedDateTime employmentDate;
     private final String address;

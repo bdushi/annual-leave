@@ -23,8 +23,13 @@ public class ApprovedController {
         return new ResponseEntity<>(approvedService.findApprovedId(id), HttpStatus.OK);
     }
 
+//    @GetMapping(name = "/last", params = {"id"})
+//    ResponseEntity<List<Approved>> findLastByLeaveId(@RequestParam("id") long id) {
+//        return new ResponseEntity<>(approvedService.findApprovedId(id), HttpStatus.OK);
+//    }
+
     @GetMapping(params = {"id", "search", "page", "size"})
-    ResponseEntity<Page<Approved>> findAllByLeaveId(@RequestParam("id") long id, @RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("size") int size) {
-        return new ResponseEntity<>(approvedService.approved(id, search, PageRequest.of(page, size)), HttpStatus.OK);
+    ResponseEntity<Page<Approved>> searchApprovedByLeaveId(@RequestParam("id") long id, @RequestParam("search") String search, @RequestParam("page") int page, @RequestParam("size") int size) {
+        return new ResponseEntity<>(approvedService.searchApproved(id, search, PageRequest.of(page, size)), HttpStatus.OK);
     }
 }

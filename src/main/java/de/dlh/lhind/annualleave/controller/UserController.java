@@ -6,7 +6,6 @@ import de.dlh.lhind.annualleave.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +24,11 @@ public class UserController {
     @GetMapping
     ResponseEntity<User> findByUsername() {
         return new ResponseEntity<>(userService.findByUsername(), HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    ResponseEntity<Iterable<User>> findAll() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/byAuthority")

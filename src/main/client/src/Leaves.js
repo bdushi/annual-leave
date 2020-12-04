@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { LeavesBody } from "./LeavesBody"
 import { Alert } from "./Alert";
+import { ApproveLeave } from "./ApproveLeave";
 
 export const Leaves = (props) => {
     const { leaves } = props;
-    const [visibility, setVisibility] = useState(false)
-    const [messages, setMessages] = useState()
+    const [visibility, setVisibility] = useState(false);
+    const [messages, setMessages] = useState();
+    const [show, setShow] = useState(false);
 
     const time = () => {
         return setTimeout(() => { 
@@ -25,7 +27,11 @@ export const Leaves = (props) => {
     }
 
     const onMessages = (messages) => {
-        setMessages(messages)
+        setMessages(messages);
+    }
+
+    const onApproveLeave = (leaveId) => {
+        setShow(true);
     }
 
     useEffect(() => {
@@ -58,7 +64,8 @@ export const Leaves = (props) => {
                                     <LeavesBody 
                                         leave = {leave} key = {leave.id} 
                                         onLeavesApproved = {alertVisibility}
-                                        onMessages = { onMessages }/>
+                                        onMessages = { onMessages }
+                                        onApproveLeave = { onApproveLeave }/>
                                 )
                             })
                         }
@@ -68,6 +75,9 @@ export const Leaves = (props) => {
                 messages = { messages } 
                 visibility = {visibility  ? "alert alert-primary alert-dismissible fade show" : "alert alert-primary alert-dismissible fade close"} 
                 onAlertClose = {alertClose}
+            />
+            <ApproveLeave
+                show = {show}
             />
         </section>
     );

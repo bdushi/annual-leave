@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table
@@ -14,6 +15,8 @@ public class Authority implements GrantedAuthority, Serializable {
     private long id;
     private String authority;
     private String description;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Collection<Privilege> privileges;
     @Override
     public String getAuthority() {
         return authority;
@@ -37,5 +40,13 @@ public class Authority implements GrantedAuthority, Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Collection<Privilege> getPrivileges() {
+        return privileges;
+    }
+
+    public void setPrivileges(Collection<Privilege> privileges) {
+        this.privileges = privileges;
     }
 }

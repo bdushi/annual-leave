@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import React, { useState } from "react";
-import axios from "axios"
+import axios from "axios";
+import logo from "./assets/logo.svg";
 
 function SingIn(props) {
     const [username, setUsername] = useState("");

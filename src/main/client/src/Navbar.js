@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { SearchContext } from "./context/SearchContext";
-import logo from './logo.svg'
+import logo from "./assets/logo.svg";
 
 const Navbar = () => {
   const { onSearch } = useContext(SearchContext);
