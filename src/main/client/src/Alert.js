@@ -1,5 +1,9 @@
 export const Alert = (props) => {
-    const { messages,  visibility, onAlertClose} = props;
+    const { 
+            messages,  
+            visibility, 
+            onAlertClose
+        } = props;
     return(
         <div style = {
             {

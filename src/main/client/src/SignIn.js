@@ -9,33 +9,42 @@ function SingIn(props) {
         <div className="form-signin text-center">
             <img src={logo} alt="logo" width="72" height="72" className="d-inline-block"/>
             <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-            <label 
-                htmlFor="inputUsername" 
-                className="visually-hidden">
-                    Username
-            </label>
-            <input
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                id="inputUsername"
-                type="text" 
-                className="form-control input-lg" 
-                placeholder="Username" 
-                required 
-                autoFocus/>
-            <label 
-                htmlFor="inputPassword" 
-                className="visually-hidden">
-                    Password
-            </label>
-            <input 
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                type="password" 
-                id="inputPassword" 
-                className="form-control" 
-                placeholder="Password" 
-                required=""/>
+            
+            <div className="container-lg" style={{
+                alignContent: "center"
+            }}>
+                <div className="col-md-2">
+                    <label 
+                        htmlFor="inputUsername" 
+                        className="visually-hidden">
+                        Username
+                    </label>
+                    <input
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
+                        id="inputUsername"
+                        type="text" 
+                        className="form-control input-lg" 
+                        placeholder="Username" 
+                        required 
+                        autoFocus/>
+                </div>
+                <div className="col-md-2">
+                    <label 
+                        htmlFor="inputPassword" 
+                        className="visually-hidden">
+                            Password
+                    </label>
+                    <input 
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        type="password" 
+                        id="inputPassword" 
+                        className="form-control" 
+                        placeholder="Password" 
+                        required=""/>
+                </div>
+            </div>
             <div className="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"/> Remember me

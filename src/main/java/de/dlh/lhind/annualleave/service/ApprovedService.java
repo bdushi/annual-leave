@@ -2,20 +2,18 @@ package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.model.Approved;
 import de.dlh.lhind.annualleave.model.Leave;
-import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.ApprovedRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @Service
 public class ApprovedService {
@@ -63,6 +61,7 @@ public class ApprovedService {
 
     /**
      * https://stackoverflow.com/questions/31841471/spring-data-jpa-specification-for-a-manytomany-unidirectional-relationship
+     * https://www.google.com/search?client=firefox-b-d&q=JpaSpecificationExecutor+comnpare+many+to+many+relationship
      *
      * SELECT A .* FROM APPROVED AS A
      * JOIN LEAVE AS L ON L.ID = A.LEAVE_ID
@@ -104,11 +103,32 @@ public class ApprovedService {
         }, pageable);
     }
 
-    public List<Approved> findApprovedId(long id) {
-        return approvedRepository.findApprovedId(id);
+    public Approved findApprovedId(long id) throws Throwable {
+        return approvedRepository
+                .findApprovedId(id)
+                .orElseThrow((Supplier<Throwable>) () -> new RuntimeException("Approved with Id:" + id + " was not Founded"));
     }
 
-    public Page<Approved> approved(long id, String search, Pageable pageable) {
-        return approvedRepository.approved(id, "%"+search+"%", pageable);
+    /**
+     * https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl/
+     * https://www.objectdb.com/java/jpa/query/criteria
+     * https://www.codota.com/code/java/methods/javax.persistence.criteria.CriteriaBuilder/least
+     *
+     */
+    public Optional<Approved> findLeastApprovedById(long id) {
+        return approvedRepository.findOne((Specification<Approved>) (root, criteriaQuery, criteriaBuilder) -> {
+            criteriaQuery.distinct(true);
+            Root<Leave> leaveRoot = criteriaQuery.from(Leave.class);
+            Expression<Collection<Approved>> leaveApproved = leaveRoot.get("approved");
+            criteriaQuery
+                    .orderBy(criteriaBuilder.desc(root.get("id")));
+//            CriteriaQuery<Long> criteriaBuilderQuery = criteriaBuilder.createQuery(Long.class);
+//            criteriaBuilderQuery.select(criteriaBuilder.count(criteriaBuilderQuery.from(Approved.class)));
+//            Expression<Approved> approved = criteriaBuilder.least(root.as());
+            return criteriaBuilder.and(
+                    criteriaBuilder.equal(leaveRoot.get("id"), id),
+                    criteriaBuilder.isMember(root, leaveApproved)
+            );
+        });
     }
 }

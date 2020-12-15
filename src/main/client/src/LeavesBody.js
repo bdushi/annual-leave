@@ -3,7 +3,13 @@ import { LeaveStatus } from "./LeaveStatus";
 import { useHistory } from "react-router-dom";
 
 export const LeavesBody = (props) => {
-    const { leave, onLeavesApproved, onMessages, onApproveLeave } = props;
+    const { 
+            index,
+            leave, 
+            onLeavesApproved, 
+            onMessages, 
+            onApproveLeave 
+        } = props;
     const history = useHistory();
     
     return(
@@ -16,15 +22,18 @@ export const LeavesBody = (props) => {
             <td>{leave.leaveTypes.description}</td>
             <td>{leave.description}</td>
             <td>{leave.comment}</td>
-            <td> <LeaveStatus leaveId = {leave.id} onApproveLeave = { onApproveLeave }/> </td>
+            <td> 
+                <LeaveStatus
+                    leave = {leave}
+                    onApproveLeave = { onApproveLeave }/> 
+            </td>
             <td>
                 <svg
                     onClick={() => {
                         if(leave.approved.length !== 0) {
                             history.push({
-                                    pathname: '/leavesApproved',
-                                    state: { leaveId: leave.id 
-                                }
+                                pathname: '/leavesApproved',
+                                state: { leaveId: leave.id }
                             });
                         } else {
                             onLeavesApproved();

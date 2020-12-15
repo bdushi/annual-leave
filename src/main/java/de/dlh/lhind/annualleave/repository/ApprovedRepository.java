@@ -8,18 +8,18 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ApprovedRepository extends JpaRepository<Approved, Long>, JpaSpecificationExecutor<Approved> {
     @Query(
             value = "" +
                     "SELECT A .* FROM APPROVED AS A " +
-                    "LEFT JOIN LEAVE AS L ON L.ID = A.LEAVE_ID " +
-                    "WHERE L.ID = :id",
+                    "LEFT JOIN LEAVE_APPROVED AS LA ON LA.APPROVED_ID = A.ID " +
+                    "WHERE LA.LEAVE_ID = :id ORDER BY A.ID DESC LIMIT 1",
             nativeQuery = true
     )
-    List<Approved> findApprovedId(long id);
+    Optional<Approved> findApprovedId(long id);
 
     @Query(
             value = "" +

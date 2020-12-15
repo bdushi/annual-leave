@@ -6,6 +6,7 @@ import de.dlh.lhind.annualleave.service.LeaveService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +46,14 @@ public class LeaveController {
     ResponseEntity<Leave> approved(@RequestBody Leave leave) {
         return new ResponseEntity<>(
                 leaveService.approveLeave(leave), HttpStatus.CREATED
+        );
+    }
+
+    @PreAuthorize("haseRole(ADMIN, 'SUPERVISOR')")
+    @PostMapping(path = "/approved/{id}", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+    ResponseEntity<Leave> approvedLeave(@PathVariable int id, @RequestParam String comment, @RequestParam boolean approved) {
+        return new ResponseEntity<>(
+                leaveService.approveLeave(id, comment, approved), HttpStatus.CREATED
         );
     }
 }

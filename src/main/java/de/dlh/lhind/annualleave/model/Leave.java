@@ -3,6 +3,7 @@ package de.dlh.lhind.annualleave.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,12 +22,11 @@ public class Leave implements Serializable {
     private User requestedBy;
     @OneToOne
     private LeaveTypes leaveTypes;
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, targetEntity = Approved.class)
-    @JoinColumn(name = "leave_id", insertable = false, updatable = false)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private List<Approved> approved;
 
     public Leave() {
-
+        // Default Constructor
     }
     public Leave(
             long id,
@@ -37,8 +37,7 @@ public class Leave implements Serializable {
             String comment,
             User requestedBy,
             LeaveTypes leaveTypes,
-            List<Approved> approved
-    ) {
+            List<Approved> approved) {
         this.id = id;
         this.createDate = createDate;
         this.startDate = startDate;
@@ -120,5 +119,13 @@ public class Leave implements Serializable {
 
     public void setApproved(List<Approved> approved) {
         this.approved = approved;
+    }
+    public void addApproved(Approved approved) {
+        if(this.approved != null) {
+            this.approved.add(approved);
+        } else {
+            this.approved = new ArrayList<>();
+            this.approved.add(approved);
+        }
     }
 }

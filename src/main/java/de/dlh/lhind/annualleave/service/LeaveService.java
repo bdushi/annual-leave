@@ -5,6 +5,7 @@ import de.dlh.lhind.annualleave.event.ApprovedLeaveRequestListener;
 import de.dlh.lhind.annualleave.event.LeaveListener;
 import de.dlh.lhind.annualleave.event.OnApprovedLeaveRequestEvent;
 import de.dlh.lhind.annualleave.event.OnLeaveEvent;
+import de.dlh.lhind.annualleave.model.Approved;
 import de.dlh.lhind.annualleave.model.Leave;
 import de.dlh.lhind.annualleave.model.User;
 import de.dlh.lhind.annualleave.repository.LeaveRepository;
@@ -17,9 +18,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -73,6 +77,29 @@ public class LeaveService {
                 Leave mLeave = leaveRepository
                         .findById(leave.getId()).orElseThrow((Supplier<Throwable>) () -> new RuntimeException("Leave with " + leave.getId() + " Not Founded"));
                 mLeave.setApproved(leave.getApproved());
+                Leave approvedLeave = leaveRepository.save(mLeave);
+                approvedLeaveRequestListener.onApplicationEvent(new OnApprovedLeaveRequestEvent(approvedLeave));
+                return approvedLeave;
+            } catch (Throwable throwable) {
+                throw new RuntimeException(throwable);
+            }
+        } else {
+            throw new RuntimeException("You must provide an Approved entity");
+        }
+    }
+
+    @Transactional
+    public Leave approveLeave(long id, @NotNull @NotBlank String comment, @NotNull boolean approved) {
+        if(id != 0) {
+            try {
+                Leave mLeave = leaveRepository
+                        .findById(id).orElseThrow((Supplier<Throwable>) () -> new RuntimeException("Leave with " + id + " Not Founded"));
+                Approved mApproved = new Approved();
+                mApproved.setApproved(approved);
+                mApproved.setComment(comment);
+                mApproved.setApprovedDate(ZonedDateTime.now());
+                mApproved.setApprovedBy(userService.findByUsername());
+                mLeave.addApproved(mApproved);
                 Leave approvedLeave = leaveRepository.save(mLeave);
                 approvedLeaveRequestListener.onApplicationEvent(new OnApprovedLeaveRequestEvent(approvedLeave));
                 return approvedLeave;

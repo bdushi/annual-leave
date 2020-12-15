@@ -1,14 +1,14 @@
-
 import React, { useState, useEffect } from "react";
 import { LeavesBody } from "./LeavesBody"
 import { Alert } from "./Alert";
-import { ApproveLeave } from "./ApproveLeave";
+import { ApproveLeaveModal } from "./ApproveLeaveModal";
 
 export const Leaves = (props) => {
-    const { leaves } = props;
+    const { leaves, onRefresh } = props;
     const [visibility, setVisibility] = useState(false);
     const [messages, setMessages] = useState();
     const [show, setShow] = useState(false);
+    const [leave, setLeave] = useState();
 
     const time = () => {
         return setTimeout(() => { 
@@ -30,16 +30,17 @@ export const Leaves = (props) => {
         setMessages(messages);
     }
 
-    const onApproveLeave = (leaveId) => {
+    const onApproveLeave = (leave) => {
         setShow(true);
+        setLeave(leave)
     }
-
+    
     useEffect(() => {
         setVisibility(props.visibility)
         setMessages(props.messages)
     }
     ,[props]
-)
+    )
 
     return (
         <section>
@@ -62,7 +63,8 @@ export const Leaves = (props) => {
                             leaves.map((leave, index) => {
                                 return(
                                     <LeavesBody 
-                                        leave = {leave} key = {leave.id} 
+                                        key = {leave.id} 
+                                        leave = {leave} 
                                         onLeavesApproved = {alertVisibility}
                                         onMessages = { onMessages }
                                         onApproveLeave = { onApproveLeave }/>
@@ -76,9 +78,18 @@ export const Leaves = (props) => {
                 visibility = {visibility  ? "alert alert-primary alert-dismissible fade show" : "alert alert-primary alert-dismissible fade close"} 
                 onAlertClose = {alertClose}
             />
-            <ApproveLeave
-                show = {show}
-            />
+            <ApproveLeaveModal
+                show = { show }
+                leave = { leave }
+                onButtonClick = { button => {
+                    if(button == 'close') 
+                        setShow(false);
+                    if(button == 'save') {
+                        setShow(false);
+                        onRefresh()
+                    }
+                } 
+            }/>
         </section>
     );
 }

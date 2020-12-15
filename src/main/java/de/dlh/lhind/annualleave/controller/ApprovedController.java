@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -18,13 +18,19 @@ public class ApprovedController {
     public ApprovedController(ApprovedService approvedService) {
         this.approvedService = approvedService;
     }
+
+//    @GetMapping(params = {"id"})
+//    ResponseEntity<List<Approved>> findAllByLeaveId(@RequestParam("id") long id) {
+//        return new ResponseEntity<>(approvedService.findApprovedId(id), HttpStatus.OK);
+//    }
+
     @GetMapping(params = {"id"})
-    ResponseEntity<List<Approved>> findAllByLeaveId(@RequestParam("id") long id) {
+    ResponseEntity<Approved> findApprovedId(@RequestParam("id") long id) throws Throwable {
         return new ResponseEntity<>(approvedService.findApprovedId(id), HttpStatus.OK);
     }
 
-//    @GetMapping(name = "/last", params = {"id"})
-//    ResponseEntity<List<Approved>> findLastByLeaveId(@RequestParam("id") long id) {
+//    @GetMapping(name = "/leastApproved", params = {"id"})
+//    ResponseEntity<List<Approved>> findLeastApproved(@RequestParam("id") long id) {
 //        return new ResponseEntity<>(approvedService.findApprovedId(id), HttpStatus.OK);
 //    }
 
