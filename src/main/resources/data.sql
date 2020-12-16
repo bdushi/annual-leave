@@ -30,6 +30,19 @@ INSERT INTO leave_types(types, description)
 INSERT INTO leave(comment, create_date, description, end_date, leave_types_id, requested_by_id, start_date)
     VALUES
     ('Comment Debug', CURRENT_TIMESTAMP(), 'Description Debug', '2020-10-30T11:38:56.793276Z', 1, 1, '2020-10-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
+    ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z'),
     ('Pushimet Dimerore', CURRENT_TIMESTAMP(), 'Kerkes Per Leve Vjetore', '2020-11-30T11:38:56.793276Z', 1, 1, '2020-11-22T11:38:56.793276Z');
 
 INSERT INTO approved(approved_date, comment, approved, approved_by_id)
