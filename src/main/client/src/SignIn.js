@@ -9,11 +9,8 @@ function SingIn(props) {
         <div className="form-signin text-center">
             <img src={logo} alt="logo" width="72" height="72" className="d-inline-block"/>
             <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
-            
-            <div className="container-lg" style={{
-                alignContent: "center"
-            }}>
-                <div className="col-md-2">
+            <div className="container-fluid">
+                <div className="col-md-2 mx-auto">
                     <label 
                         htmlFor="inputUsername" 
                         className="visually-hidden">
@@ -29,7 +26,7 @@ function SingIn(props) {
                         required 
                         autoFocus/>
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-2 mx-auto">
                     <label 
                         htmlFor="inputPassword" 
                         className="visually-hidden">
