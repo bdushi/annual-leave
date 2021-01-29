@@ -1,9 +1,14 @@
 package de.dlh.lhind.annualleave.model;
 
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table
+@Audited
 public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

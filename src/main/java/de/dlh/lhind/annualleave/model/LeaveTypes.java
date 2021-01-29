@@ -1,10 +1,14 @@
 package de.dlh.lhind.annualleave.model;
 
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table
+@Audited
 public class LeaveTypes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

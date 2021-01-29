@@ -6,12 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.history.RevisionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ApprovedRepository extends JpaRepository<Approved, Long>, JpaSpecificationExecutor<Approved> {
+public interface ApprovedRepository extends RevisionRepository<Approved, Long, Long>, JpaRepository<Approved, Long>, JpaSpecificationExecutor<Approved> {
     @Query(
             value = "" +
                     "SELECT A .* FROM APPROVED AS A " +

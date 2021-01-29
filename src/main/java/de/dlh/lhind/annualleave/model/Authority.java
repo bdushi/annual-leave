@@ -1,5 +1,7 @@
 package de.dlh.lhind.annualleave.model;
 
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import java.util.Collection;
 
 @Entity
 @Table
+@Audited
 public class Authority implements GrantedAuthority, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

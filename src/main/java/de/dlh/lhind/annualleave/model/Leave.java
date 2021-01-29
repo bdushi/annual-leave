@@ -1,5 +1,7 @@
 package de.dlh.lhind.annualleave.model;
 
+import org.hibernate.envers.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Table
+@Audited
 public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
