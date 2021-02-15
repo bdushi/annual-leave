@@ -21,11 +21,17 @@ INSERT INTO user_authorities (user_id, authorities_id)
     (4, 4),
     (5, 1);
 
+--CREATE TYPE leave_type AS ENUM (
+--    'DAYS_OFF',
+--    'VACATION',
+--    'COMPENSATION'
+--)
+
 INSERT INTO leave_types(types, description)
     VALUES
-    ('DAYS_OFF', 'days off'),
-    ('VACATION', 'vacations'),
-    ('COMPENSATION', 'compensation');
+    ('0', 'days off'),
+    ('1', 'vacations'),
+    ('2', 'compensation');
 
 INSERT INTO leave(comment, create_date, description, end_date, leave_types_id, requested_by_id, start_date)
     VALUES

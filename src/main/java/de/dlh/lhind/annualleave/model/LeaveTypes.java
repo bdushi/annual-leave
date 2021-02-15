@@ -1,6 +1,8 @@
 package de.dlh.lhind.annualleave.model;
 
+import de.dlh.lhind.annualleave.common.LeaveType;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -8,13 +10,16 @@ import java.io.Serializable;
 
 @Entity
 @Table
-@Audited
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class LeaveTypes implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, insertable = false, unique = true, nullable = false)
     private long id;
-    private String types;
+
+    @Enumerated(EnumType.ORDINAL)
+//    @Column(columnDefinition = "leave_type")
+    private LeaveType types;
     private String description;
 
     public long getId() {
@@ -25,11 +30,11 @@ public class LeaveTypes implements Serializable {
         this.id = id;
     }
 
-    public String getTypes() {
+    public LeaveType getTypes() {
         return types;
     }
 
-    public void setTypes(String types) {
+    public void setTypes(LeaveType types) {
         this.types = types;
     }
 
