@@ -1,5 +1,6 @@
 package de.dlh.lhind.annualleave.dto;
 
+import de.dlh.lhind.annualleave.common.Roles;
 import de.dlh.lhind.annualleave.model.Authority;
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -19,7 +20,7 @@ public class UserDto {
 	@Size(max = 50)
     private final String email;
     private final boolean enable;
-    private final Collection<Authority> authorities;
+    private final Roles authorities;
     private final ZonedDateTime employmentDate;
     private final String address;
     private final String phone;
@@ -30,7 +31,7 @@ public class UserDto {
             String username,
             String email,
             boolean enable,
-            Collection<Authority> authorities,
+            Roles authorities,
             ZonedDateTime employmentDate,
             String address,
             String phone) {
@@ -65,7 +66,7 @@ public class UserDto {
         return enable;
     }
 
-    public Collection<Authority> getAuthorities() {
+    public Roles getAuthorities() {
         return authorities;
     }
 

@@ -1,5 +1,6 @@
 package de.dlh.lhind.annualleave.model;
 
+import de.dlh.lhind.annualleave.common.Roles;
 import org.hibernate.envers.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,17 +12,18 @@ import java.util.Collection;
 @Entity
 @Table
 @Audited
-public class Authority implements GrantedAuthority, Serializable {
+public class Authority implements Serializable, GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, insertable = false, unique = true, nullable = false)
     private long id;
-    private String authority;
+    @Enumerated(EnumType.ORDINAL)
+    private Roles authority;
     private String description;
     @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Privilege> privileges;
-    @Override
-    public String getAuthority() {
+
+    public Roles getRoles() {
         return authority;
     }
 
@@ -33,7 +35,7 @@ public class Authority implements GrantedAuthority, Serializable {
         this.id = id;
     }
 
-    public void setAuthority(String authority) {
+    public void setRoles(Roles authority) {
         this.authority = authority;
     }
 
@@ -51,5 +53,10 @@ public class Authority implements GrantedAuthority, Serializable {
 
     public void setPrivileges(Collection<Privilege> privileges) {
         this.privileges = privileges;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getRoles().name();
     }
 }

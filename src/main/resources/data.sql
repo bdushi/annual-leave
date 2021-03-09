@@ -6,12 +6,19 @@ INSERT INTO user (username, first_name, last_name, password, email, address, pho
     ('finance', 'Finance', 'Finance', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'finance@finance.com', 'Tirane', '699897887', CURRENT_TIMESTAMP(), true),
     ('admin', 'Admin', 'Admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi', 'admin@admin.com', 'Tirane', '699897887', CURRENT_TIMESTAMP(), true);
 
+--INSERT INTO authority (authority, description)
+--    VALUES
+--    ('ADMIN', 'Administrator'),
+--    ('EMPLOYEE', 'Punonjes'),
+--    ('SUPERVISOR', 'Supervizor'),
+--    ('FINANCE', 'Financa');
+
 INSERT INTO authority (authority, description)
     VALUES
-    ('ADMIN', 'Administrator'),
-    ('EMPLOYEE', 'Punonjes'),
-    ('SUPERVISOR', 'Supervizor'),
-    ('FINANCE', 'Financa');
+    ('0', 'Administrator'),
+    ('1', 'Employee'),
+    ('2', 'Supervisor'),
+    ('3', 'Finance');
 
 INSERT INTO user_authorities (user_id, authorities_id)
     VALUES

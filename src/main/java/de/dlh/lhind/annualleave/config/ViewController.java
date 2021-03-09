@@ -13,7 +13,7 @@ public class ViewController implements ErrorController {
     String error()  {
         return "forward:/index.html";
     }
-    @Override
+
     public String getErrorPath() {
         return PATH;
     }

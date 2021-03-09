@@ -1,6 +1,7 @@
 package de.dlh.lhind.annualleave.service;
 
 import de.dlh.lhind.annualleave.authentication.AuthenticationFacade;
+import de.dlh.lhind.annualleave.common.Roles;
 import de.dlh.lhind.annualleave.dto.UserDto;
 import de.dlh.lhind.annualleave.event.OnRegistrationEvent;
 import de.dlh.lhind.annualleave.model.Authority;
@@ -17,8 +18,12 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.Predicate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static de.dlh.lhind.annualleave.common.Common.generateRandomPassword;
 
@@ -72,7 +77,11 @@ public class UserServiceImpl implements UserService {
                 userDto.getEmail(),
                 userDto.getAddress(),
                 userDto.getPhone(),
-                userDto.getAuthorities(),
+                EnumSet.of(userDto.getAuthorities()).stream().map(roles -> {
+                    Authority authority = new Authority();
+                    authority.setRoles(roles);
+                    return authority;
+                }).collect(Collectors.toList()),
                 ZonedDateTime.now(),
                 true);
         applicationEventPublisher.publishEvent(new OnRegistrationEvent(user, appUrl, password));
@@ -93,7 +102,11 @@ public class UserServiceImpl implements UserService {
                             userDto.getEmail(),
                             userDto.getAddress(),
                             userDto.getPhone(),
-                            userDto.getAuthorities(),
+                            EnumSet.of(userDto.getAuthorities()).stream().map(roles -> {
+                                Authority authority = new Authority();
+                                authority.setRoles(roles);
+                                return authority;
+                            }).collect(Collectors.toList()),
                             ZonedDateTime.now(),
                             user.isEnable())
             );
